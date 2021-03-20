@@ -73,8 +73,8 @@
       </div>
 
       <!-- Wallet balance view -->
-      <div id="wallet-balance-view" class="d-block">
-        <h1 id='wallet-balance'>Wallet Balance: $200</h1>
+      <div id="wallet-balance-view" class="d-none">
+        <h1>Wallet Balance: <span id='wallet-balance'></span> </h1>
           <form id='transaction-form' class="form-group mt-5">
         <div class="row">
           <label for="amount" class="col-form-label col-4"
@@ -93,8 +93,6 @@
               class="form-control"
               aria-label="Amount (to the nearest dollar)"
             />
-            <span class="input-group-text">$</span>
-            <span class="input-group-text1">1.00</span>
           </div>
           </div>
             <div
@@ -106,8 +104,9 @@
               <input
                 type="radio"
                 class="btn-check"
+                name="typebtn"
+                value="income"
                 id="income"
-                name="income"
                 autocomplete="off"
                 checked
               />
@@ -116,7 +115,8 @@
               <input
                 type="radio"
                 class="btn-check"
-                name="expense"
+                name="typebtn"
+                value="expense"
                 id="expense"
                 autocomplete="off"
               />

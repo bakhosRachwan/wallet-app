@@ -10,10 +10,9 @@ class Wallet {
         this.transactions.push(transaction)
     }
 }
-
 class Transaction {
     constructor(transaction, type, notes, tags){
-        this.date= Date.now()
+        this.date= new Date().toDateString()
         this.transaction = transaction,
         this.type = type,
         this.notes = notes,
@@ -30,6 +29,16 @@ class Display {
             list.appendChild(li)
         });
     }
+    static updateBalance(wallet){
+        let total = wallet.transactions.map(element => 
+            element.type === "income"? parseInt(element.transaction): +element.transaction*-1
+            ).reduce((acc, cum) => {
+                return acc + cum
+            }, parseInt(wallet.balance))
+        const balance = document.querySelector("#wallet-balance")
+        balance.innerHTML= ""
+        balance.innerHTML+= total
+        }
 }
 
 let walletOne;
@@ -38,18 +47,19 @@ walletForm.addEventListener("submit", function(e){
     e.preventDefault();
     const {name, currency, balance, description} = e.target;
     walletOne = new Wallet(name.value, currency.value, balance.value, description.value)
+    document.querySelector("#create-wallet-view").classList.add("d-none")
+    document.querySelector("#wallet-balance-view").classList.remove("d-none")
+    document.querySelector("#wallet-balance-view").classList.add("d-block")
     // localStorage.setItem('wallets', JSON.stringify(walletOne));
-    console.log("walletOne")
 })
 
 const transForm = document.querySelector("#transaction-form")
 transForm.addEventListener("submit", function(e){
     e.preventDefault();
-    const {amount, notes, tags, income} = e.target;
-    walletOne.addTransaction (new Transaction(amount.value, income.value, notes.value, tags.value))
+    const {amount, notes, tags, typebtn} = e.target;
+    walletOne.addTransaction (new Transaction(amount.value, typebtn.value, notes.value, tags.value))
     // let wall = JSON.parse(localStorage.getItem("wallet"));
-
-    // wall.transactions.push(newTrans)
-    console.log(walletOne)
+console.log(walletOne)
     Display.addTransList(walletOne)
+    Display.updateBalance(walletOne)
 })
